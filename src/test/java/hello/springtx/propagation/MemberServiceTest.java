@@ -57,4 +57,22 @@ class MemberServiceTest {
         assertThat(memberRepository.find(username).isPresent()).isTrue();
         assertThat(logRepository.find(username).isEmpty()).isTrue();
     }
+
+    /**
+     * memberService     @Transactional: ON
+     * memberRepository  @Transactional: OFF
+     * logRepository     @Transactional: OFF
+     */
+    @Test
+    void singleTransaction() {
+        // given
+        String username = "outerTransactionOffSuccess";
+
+        // when
+        memberService.joinV1(username);
+
+        // then
+        assertThat(memberRepository.find(username).isPresent()).isTrue();
+        assertThat(logRepository.find(username).isPresent()).isTrue();
+    }
 }
